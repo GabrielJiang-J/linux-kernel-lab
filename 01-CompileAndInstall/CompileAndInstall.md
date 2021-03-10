@@ -26,6 +26,19 @@ RPM包安装完成以后，可能会需要手动更新grub记录才能启用新�
 执行命令：`grub2-set-default 'xxx'`，将xxx设置为默认启动项。
 执行命令：`grub2-editenv list`，查看当前默认启动项。
 
+### windows 10 + vitualbox双机 + gdb调试kernel
+1. 创建上位机，选择COM1，启用串口，不要勾选“连接至现有通道或套接字”模式选择host pipe，路径按如下格式填写：\\\\.pipe\PIPENAME。
+2. 创建下位机，操作如同1，只是要勾选“连接至现有通道或套接字”。
+3. 启动上位机，执行命令`stty -F /dev/ttyS0 speed 115200; cat /dev/ttyS0`，等待接收信息。
+4. 启动下位机，执行命令`stty -F /dev/ttyS0 speed 115200; echo hello /dev/ttyS0`，发送消息。
+5. 上位机如果收到消息，说明双机串口连接成功，开始kgdb的调试配置。
+6. 在下位机中，将`kgdboc=ttyS0,115200 kgdbwait`加入到grub.conf的linux16内核启动项中。
+7. 在下位机中，执行命令`echo g>/proc/sysrq-trigger`。/proc/sysrq-trigger文件是在gdb没有下位机控制权的时候，下位机主动将控制权交给gdb。。
+8. 重启下位机，此时下位机会停止等待从串口接收gdb发来的指令。
+9. 在上位机中，执行命令`sudo gdb vmlinux`，因为要读写/dev/ttyS0文件，所以需要root权限。
+10. 在上位机中，执行gdb命令`target remote /dev/ttyS0`，来连接下位机。
+11. 此时，上位机就可以正常通过gdb指令调试下位机内核了。
+
 ### 问题
 #### 1. 在下位机安装完新内核后，一直卡在“Booting the kernel” (pending!!!)
 1.1 刚开始怀疑没有initramfs，导致无法启动。尝试过使用dracut -f 生成initramfs，结果并没有什么卵用。
