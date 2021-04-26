@@ -1,0 +1,24 @@
+这个样本是在编译gcc 10.3.0时出现的，机器的cpu数是6，此时系统已出现明显的卡顿。
+
+[Apr26 11:01] NMI watchdog: BUG: soft lockup - CPU#5 stuck for 33s! [xg++:12066]
+[  +0.000036] Modules linked in: snd_intel8x0 snd_ac97_codec ac97_bus snd_seq snd_seq_device ppdev snd_pcm snd_timer joydev snd sg soundcore parp
+[  +0.000026] CPU: 5 PID: 12066 Comm: xg++ Kdump: loaded Not tainted 3.10.0-1160.24.1.el7.x86_64 #1
+[  +0.000001] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+[  +0.000001] task: ffff8c2a88986300 ti: ffff8c2a88c30000 task.ti: ffff8c2a88c30000
+[  +0.000001] RIP: 0010:[<ffffffff97f8b4d5>]  [<ffffffff97f8b4d5>] _raw_spin_unlock_irqrestore+0x15/0x20
+[  +0.000006] RSP: 0018:ffff8c2a88c33e80  EFLAGS: 00010206
+[  +0.000001] RAX: 0000000000000001 RBX: 0000000000000206 RCX: ffffffff98400010
+[  +0.000001] RDX: 00000000000008fd RSI: 0000000000000206 RDI: 0000000000000206
+[  +0.000001] RBP: ffff8c2a88c33e80 R08: 0000000000000008 R09: ffffffff98418480
+[  +0.000001] R10: 0000000000000000 R11: 1d60000000000000 R12: ffff8c2affc1acc0
+[  +0.000001] R13: ffff8c2affc1ad40 R14: ffff8c2a9d94b1e8 R15: ffffffff9786d3be
+[  +0.000002] FS:  00007f88604ce740(0000) GS:ffff8c2affd40000(0000) knlGS:0000000000000000
+[  +0.000001] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  +0.000001] CR2: 00007fd0fb9acc60 CR3: 000000007d2c0000 CR4: 00000000000206e0
+[  +0.000002] Call Trace:
+[  +0.000005]  [<ffffffff978db1f5>] wake_up_new_task+0x135/0x1a0
+[  +0.000002]  [<ffffffff9789a221>] do_fork+0xf1/0x330
+[  +0.000002]  [<ffffffff9789a4cc>] sys_vfork+0x1c/0x20
+[  +0.000002]  [<ffffffff97f96454>] stub_vfork+0x44/0x70
+[  +0.000002]  [<ffffffff97f95f92>] ? system_call_fastpath+0x25/0x2a
+[  +0.000001] Code: d6 bd 98 ff 66 90 5d c3 0f 1f 40 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 55 48 89 e5 e8 b6 bd 98 ff 66 90 48 89 f7 57
