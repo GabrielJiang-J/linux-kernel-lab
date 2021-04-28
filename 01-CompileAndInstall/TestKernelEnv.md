@@ -44,3 +44,12 @@ find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../initramfs.img
 
 qemu-system-x86_64 -kernel ./bzImage -initrd ./initramfs.img -hdc disk.img -append "console=ttyS0 nokaslr" -nographic  -S -s
 ```
+
+安装10.2 gdb
+```
+sudo yum install expat-devel
+cd gdb
+../configure --prefix=/usr/local/gdb/10.2 --with-python=$(which python2.7) --with-expat
+make -j6
+make install
+```
