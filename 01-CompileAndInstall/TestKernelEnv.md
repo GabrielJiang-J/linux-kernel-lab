@@ -37,6 +37,8 @@ cat <<EOF > fstab
 > devtmpfs        /dev         devtmpfs  defaults          0       0
 > EOF
 
+cd rootfs
+
 find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../initramfs.img
 
 qemu-system-x86_64 -kernel ./bzImage -initrd ./initramfs.img -hdc disk.img -append console=ttyS0 -nographic -S -s
