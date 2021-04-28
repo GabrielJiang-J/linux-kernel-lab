@@ -52,4 +52,6 @@ cd gdb
 ../configure --prefix=/usr/local/gdb/10.2 --with-python=$(which python2.7) --with-expat
 make -j6
 make install
+
+echo "add-auto-load-safe-path /home/jiangziqi/test_kernel/5.12/src/linux/scripts/gdb/vmlinux-gdb.py" > ~/.gdbinit
 ```
