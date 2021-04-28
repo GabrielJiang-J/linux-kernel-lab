@@ -29,6 +29,7 @@ cat <<EOF > rcS
 
 chmod +x rcS
 
+cd ..
 touch fstab
 cat <<EOF > fstab
 > #/etc/fstab
@@ -36,6 +37,8 @@ cat <<EOF > fstab
 > sysfs           /sys         sysfs   defaults          0       0
 > devtmpfs        /dev         devtmpfs  defaults          0       0
 > EOF
+
+cd rootfs
 
 find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../initramfs.img
 
