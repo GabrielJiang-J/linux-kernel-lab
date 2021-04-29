@@ -50,3 +50,5 @@ static void __exit test_cleanup_module(void) {
 	print_crX();
 }
 module_exit(test_cleanup_module);
+
+MODULE_LICENSE("GPL");
